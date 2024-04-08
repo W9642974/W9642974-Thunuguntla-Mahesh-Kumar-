@@ -36,6 +36,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uk.ac.tees.mad.w9642974.R
 import uk.ac.tees.mad.w9642974.navigation.NavigationDestination
+import uk.ac.tees.mad.w9642974.presentation.auth.AuthActionDestination
 import uk.ac.tees.mad.w9642974.presentation.home.HomeDestination
 
 object SplashDestination: NavigationDestination{
@@ -45,7 +46,7 @@ object SplashDestination: NavigationDestination{
 
 @Composable
 fun SplashScreen(
-    navHostController: NavHostController
+    onSplashFinish: () -> Unit
 ) {
     val anim = remember {
         Animatable(0f)
@@ -98,10 +99,7 @@ fun SplashScreen(
     LaunchedEffect(key1 = true) {
         anim.animateTo(1f, animationSpec = tween(1500))
         delay(2000L)
-        launch(Dispatchers.Main) {
-            navHostController.popBackStack()
-            navHostController.navigate(HomeDestination.route)
-        }
+        onSplashFinish()
     }
 }
 

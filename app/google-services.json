@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "130075451519",
+    "project_id": "groupflow-f5e2a",
+    "storage_bucket": "groupflow-f5e2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130075451519:android:5df01a8a3a01f73774df4a",
+        "android_client_info": {
+          "package_name": "uk.ac.tees.mad.w9642974"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANq6vIzTYIJf5f75mnpHT7-N96l3GimWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
