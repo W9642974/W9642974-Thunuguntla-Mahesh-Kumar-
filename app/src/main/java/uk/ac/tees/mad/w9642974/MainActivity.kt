@@ -7,8 +7,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,8 +27,13 @@ import uk.ac.tees.mad.w9642974.presentation.auth.LoginDestination
 import uk.ac.tees.mad.w9642974.presentation.auth.LoginScreen
 import uk.ac.tees.mad.w9642974.presentation.auth.SignUpScreen
 import uk.ac.tees.mad.w9642974.presentation.auth.SignupDestination
+import uk.ac.tees.mad.w9642974.presentation.home.AddProjectDestination
+import uk.ac.tees.mad.w9642974.presentation.home.AddProjectScreen
 import uk.ac.tees.mad.w9642974.presentation.home.HomeDestination
 import uk.ac.tees.mad.w9642974.presentation.home.HomeScreen
+import uk.ac.tees.mad.w9642974.presentation.home.viewmodels.AddProjectViewModel
+import uk.ac.tees.mad.w9642974.presentation.profile.ProfileDestination
+import uk.ac.tees.mad.w9642974.presentation.profile.ProfileScreen
 import uk.ac.tees.mad.w9642974.ui.theme.GroupFlowTheme
 
 @AndroidEntryPoint
@@ -66,14 +74,42 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(HomeDestination.route) {
                             HomeScreen(
-                                onLogout = {
-                                    scope.launch {
-                                        firebase.signOut()
-                                        navController.navigate(AuthActionDestination.route)
-                                    }
+                                onProfileClick = {
+                                    navController.navigate(ProfileDestination.route)
+                                },
+                                onAddProject = {
+                                    navController.navigate(AddProjectDestination.route)
                                 }
                             )
                         }
+
+                        composable(ProfileDestination.route) {
+                            ProfileScreen(onLogout = {
+                                scope.launch {
+                                    firebase.signOut()
+                                    navController.navigate(AuthActionDestination.route)
+                                }
+                            })
+                        }
+
+                        composable(AddProjectDestination.route) {
+                            val viewModel: AddProjectViewModel = hiltViewModel()
+                            val memberList = viewModel.allMembers
+                            val createProjectStatus by viewModel.createProjectState.collectAsState(
+                                initial = null
+                            )
+                            AddProjectScreen(
+                                onProjectAdded = {
+                                    viewModel.addProject(it)
+                                },
+                                memberList = memberList,
+                                createProjectStatus = createProjectStatus,
+                                onNavigateUp = {
+                                    navController.navigateUp()
+                                }
+                            )
+                        }
+
                         composable(AuthActionDestination.route) {
                             AuthActionScreen(
                                 onLoginClick = {
