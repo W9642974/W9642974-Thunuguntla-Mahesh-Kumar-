@@ -14,11 +14,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import uk.ac.tees.mad.w9642974.data.repository.AuthRepository
+import uk.ac.tees.mad.w9642974.data.AuthRepository
 import uk.ac.tees.mad.w9642974.domain.LoginState
 import uk.ac.tees.mad.w9642974.domain.LoginStatus
 import uk.ac.tees.mad.w9642974.domain.RegisterState
 import uk.ac.tees.mad.w9642974.domain.Resource
+import uk.ac.tees.mad.w9642974.domain.UserData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -67,6 +68,29 @@ class AuthViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun forgotPassword(email: String) = viewModelScope.launch {
+        authRepository.forgotPassword(email).collect { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _signInStatus.send(LoginStatus(isError = result.message))
+                }
+
+                is Resource.Loading -> {
+                    _signInStatus.send(LoginStatus(isLoading = true))
+                }
+
+                is Resource.Success -> {
+                    _signInStatus.send(LoginStatus(isSuccess = "Sent forget password email."))
+
+                }
+            }
+        }
+    }
+
+    fun saveUserInFirestore(user: UserData) = viewModelScope.launch {
+        authRepository.saveUser(email = user.email, username = user.username, userId = user.userId)
     }
 
     var username = mutableStateOf("Guest")
