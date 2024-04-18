@@ -2,6 +2,7 @@ package uk.ac.tees.mad.w9642974.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,6 +33,10 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun providesFirebaseStorage() = FirebaseStorage.getInstance()
+
+    @Provides
+    @Singleton
     fun providesRepo(
         firebaseAuth: FirebaseAuth,
         firebaseFirestore: FirebaseFirestore
@@ -42,8 +47,9 @@ object AppModule {
     @Singleton
     fun provideFirestore(
         firebaseAuth: FirebaseAuth,
-        firebaseFirestore: FirebaseFirestore
-    ): FirestoreRepository = FirestoreRepositoryImpl(firebaseAuth, firebaseFirestore)
+        firebaseFirestore: FirebaseFirestore,
+        firebaseStorage: FirebaseStorage
+    ): FirestoreRepository = FirestoreRepositoryImpl(firebaseAuth, firebaseFirestore, firebaseStorage)
 
     @Singleton
     @Provides

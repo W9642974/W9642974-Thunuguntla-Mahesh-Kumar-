@@ -76,7 +76,7 @@ fun AddProjectScreen(
     var description by remember { mutableStateOf("") }
     var startDate by remember { mutableStateOf(Date()) }
     var endDate by remember { mutableStateOf(Date()) }
-    var members by remember { mutableStateOf(listOf<Member>()) } // Assuming comma-separated user IDs for simplicity
+    var members by remember { mutableStateOf(listOf<Member>()) }
 
     Column(Modifier.fillMaxSize()) {
         Row(
@@ -145,7 +145,7 @@ fun AddProjectScreen(
                 items(members) {
                     Card(modifier = Modifier.fillMaxWidth()) {
                         Column(Modifier.padding(8.dp)) {
-                            Text(text = it.name, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                            Text(text = it.username, fontSize = 16.sp, fontWeight = FontWeight.Medium)
                             Text(
                                 text = it.email,
                                 fontSize = 14.sp,
@@ -425,9 +425,9 @@ fun MembersDropdownMenu(member: (Member) -> Unit, memberList: List<Member>) {
             ) {
                 memberList.forEach { selectionOption ->
                     DropdownMenuItem(
-                        text = { Text(selectionOption.name) },
+                        text = { Text(selectionOption.username) },
                         onClick = {
-                            selectedOptionText = selectionOption.name
+                            selectedOptionText = selectionOption.username
                             member(selectionOption)
                             expanded = false
                         },
