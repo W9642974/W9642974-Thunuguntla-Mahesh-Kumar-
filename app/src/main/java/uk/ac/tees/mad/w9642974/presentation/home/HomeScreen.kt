@@ -153,7 +153,7 @@ fun HomeScreen(
                             colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary),
                             onClick = {
                                 filteredProject = myProjects?.isSuccess?.filter {
-                                    !it.isCompleted
+                                    it.progress.toDouble() < 100.0
                                 } ?: emptyList()
                                 heading = "In Process"
                                 isCategoryClicked = true
@@ -182,7 +182,8 @@ fun HomeScreen(
                             colors = CardDefaults.cardColors(success),
                             onClick = {
                                 filteredProject = myProjects?.isSuccess?.filter {
-                                    it.isCompleted
+                                    println("Progress ${it.progress}")
+                                    it.progress.toDouble() == 100.0
                                 } ?: emptyList()
                                 heading = "Completed"
                                 isCategoryClicked = true
