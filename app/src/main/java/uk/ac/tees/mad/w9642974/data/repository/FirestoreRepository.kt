@@ -149,9 +149,9 @@ class FirestoreRepositoryImpl @Inject constructor(
                         val items = documents.documents.mapNotNull { document ->
                             Member(
                                 id = document.id,
-                                username = document["username"] as String,
-                                email = document["email"] as String,
-                                profileImage = document["profileImage"] as String
+                                username = document["username"] as String? ?: "",
+                                email = document["email"] as String? ?: "",
+                                profileImage = document["profileImage"] as String? ?: ""
                             )
                         }
                         trySend(Resource.Success(items))
@@ -269,7 +269,7 @@ class FirestoreRepositoryImpl @Inject constructor(
                             id = memberDoc.id,
                             username = memberDoc["username"] as String,
                             email = memberDoc["email"] as String,
-                            profileImage = memberDoc["profileImage"] as String
+                            profileImage = memberDoc["profileImage"] as String? ?: ""
                         )
                     } else null
                 }

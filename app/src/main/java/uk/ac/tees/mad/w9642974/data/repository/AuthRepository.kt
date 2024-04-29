@@ -65,7 +65,8 @@ class AuthRepositoryImpl @Inject constructor(
         if (userId != null) {
             val userMap = hashMapOf(
                 "email" to email,
-                "username" to username
+                "username" to username,
+                "profileImage" to "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUVytwsmxMJ1nr7R1jR2hlXXzFagBSzvgLZwNWsKHddw&s"
                 // Add other user data if needed
             )
             firebaseFirestore.collection("users").document(userId).set(userMap).await()
